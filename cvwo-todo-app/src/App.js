@@ -1,26 +1,26 @@
 import Header from './components/Header'
-import Tasks from './components/Task'
 import { useState } from 'react'
+import TodoForm from './components/TodoForm';
+import TodoList from './components/TodoList';
+import "./App.css";
 
 function App() {
-  const [tasks, setTasks] = useState([
-    {
-        id: 1,
-        text: 'Groceries',
-        day: 'Feb 15',
-        reminder: false
-    },
-    {
-        id: 2,
-        text: 'Shoe shopping',
-        day: 'Feb 15',
-        reminder: false
-    }
-])
+
+  const [todos, setTodos] = useState([]);
+
+  const addTodo = todo => {
+    // if (!todo.text || /^\s*$/.test(todo.text)) { // code from stackoverflow
+    //   return;
+    // }
+    const newTodos = [todo, ...todos];
+    setTodos(newTodos);
+  };
+
   return (
     <div className="todo-app">
-      <Header/>
-      <Tasks tasks={tasks}/>
+      <Header className="App-header"/>
+      <TodoForm addTodo={addTodo} />
+      <TodoList todos={todos} />
     </div>
   );
 }

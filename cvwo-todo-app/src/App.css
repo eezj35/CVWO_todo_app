@@ -1,5 +1,6 @@
-.App {
+.todo-app {
   text-align: center;
+  font-family: monospace;
 }
 
 .App-logo {
