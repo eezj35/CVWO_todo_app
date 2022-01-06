@@ -14,8 +14,9 @@ function Todo({ todo, toggleComplete, removeTodo}) {
   }
 
   return (
-    <ListItem style={{display: "flex" }}>
+    <ListItem style={{ display: "flex" }}>
       <Checkbox 
+        className='checkbox'
         checked={todo.completed}
         onClick={handleCheckboxClick}/>
 
@@ -28,8 +29,10 @@ function Todo({ todo, toggleComplete, removeTodo}) {
         {todo.task}
       </Typography>
 
-      <IconButton onClick={handleRemoveClick}>
-        <CloseIcon />
+      <IconButton 
+        
+        onClick={handleRemoveClick}>
+        <CloseIcon className='icon-button'/>
       </IconButton>
 
     </ListItem>

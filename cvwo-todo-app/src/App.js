@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
 import "./App.css";
+import { FontDownload } from '@material-ui/icons';
 
 const LOCAL_STORAGE_KEY = "react-todo-list";
 function App() {
@@ -46,8 +47,12 @@ function App() {
   return (
     <div className="todo-app">
       <Typography 
-        style={{padding: 16}}
-        variant='h1'>
+        style={{
+          padding: 50
+        }}
+        variant='h2'
+
+        >
         Task Manager
       </Typography>
       <TodoForm addTodo={addTodo} />

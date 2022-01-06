@@ -24,14 +24,24 @@ function TodoForm({ addTodo }) {
     return (
         <form className='todo-form' onSubmit={handleSubmit}>
             <TextField
-                label="Task"
+                label="Input task here"
+                InputLabelProps={{
+                    className: 'text-label'
+                }}
+                InputProps={{
+                    className: 'text-input'
+                }}
                 type='text' 
                 placeholder='Add a todo' 
                 value={todo.task}
                 name='task'
+                color='white'
                 onChange={handleChange}
+                
             />
-            <Button type='add-todo'>Add todo</Button>
+            <Button 
+                style={{backgroundColor: 'aqua'}}
+                type='add-todo'>Add todo</Button>
         </form>
     )
 }

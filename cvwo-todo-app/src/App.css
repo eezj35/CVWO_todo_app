@@ -4,21 +4,46 @@
   height: 100%;
   flex-direction: column;
   align-items: center;
-  font-family: monospace;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-/* body,
+body,
 html,
 #root {
   height: 100%;
-} */
+  background-color: #282c34;
+  color: white;
+}
 
-/* .todo-form {
+.todo-form {
   display: flex;
   flex-direction: row;
   align-items: center;
   font-family: monospace;
-} */
+  border-color: white !important;
+}
+
+.text-label {
+  color: #61dafb !important;
+}
+
+.text-input {
+  color: white !important;
+  margin-right: 16px;
+}
+
+.icon-button {
+  color: white !important;
+  margin-left: 80px;
+}
+
+.checkbox {
+  color: aqua !important;
+}
+
+.btn-label {
+  background-color: aqua !important;
+}
 
 .App-logo {
   height: 40vmin;
@@ -39,7 +64,6 @@ html,
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
 }
 
 .App-link {
