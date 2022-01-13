@@ -8,7 +8,6 @@ function TodoList({ todos, toggleComplete, removeTodo }) {
     <List className='todo-list'>
       {todos.map(todo => (
         <Todo 
-          
           key={todo.id} 
           todo={todo}
           toggleComplete={toggleComplete}
