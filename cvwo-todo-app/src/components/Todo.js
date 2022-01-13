@@ -14,28 +14,38 @@ function Todo({ todo, toggleComplete, removeTodo}) {
   }
 
   return (
-    <ListItem style={{ display: "flex" }}>
-      <Checkbox 
-        className='checkbox'
-        checked={todo.completed}
-        onClick={handleCheckboxClick}/>
+    <div className='todo-item' >
+      <div className='checkbox-and-text'>
+        <Checkbox 
+          className='checkbox'
+          checked={todo.completed}
+          onClick={handleCheckboxClick}>
 
-      <Typography 
-        variant='body1'
-        style={{
-          textDecoration: todo.completed ? "line-through" : null
-      }}
-      >
-        {todo.task}
-      </Typography>
-
-      <IconButton 
         
-        onClick={handleRemoveClick}>
-        <CloseIcon className='icon-button'/>
+        </Checkbox>
+
+        <Typography 
+          variant='body1'
+          style={{
+            textDecoration: todo.completed ? "line-through" : null
+          }}
+        >
+          <section className='todo-text'>
+            {todo.task}
+          </section>
+        </Typography>
+
+      </div>
+      
+
+    
+      <IconButton 
+        onClick={handleRemoveClick}
+        align>
+        <CloseIcon className='delete-button'/>
       </IconButton>
 
-    </ListItem>
+    </div>
   )
     
 }

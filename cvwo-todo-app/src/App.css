@@ -3,8 +3,10 @@
   display: flex;
   height: 100%;
   flex-direction: column;
+
   align-items: center;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+  justify-content: start;
 }
 
 body,
@@ -21,6 +23,22 @@ html,
   align-items: center;
   font-family: monospace;
   border-color: white !important;
+  margin-bottom: 30px;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #444;
+  width: 600px;
+  margin-bottom: 12px;
+  border-radius: 5px;
+}
+
+.checkbox-and-text {
+  display: flex;
+  align-items: center;
 }
 
 .text-label {
@@ -32,9 +50,13 @@ html,
   margin-right: 16px;
 }
 
-.icon-button {
+.todo-text {
+  align-items: flex-start;
+}
+
+.delete-button {
   color: white !important;
-  margin-left: 80px;
+  align-items: flex-end;
 }
 
 .checkbox {

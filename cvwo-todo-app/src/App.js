@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
 import "./App.css";
-import { FontDownload } from '@material-ui/icons';
 
 const LOCAL_STORAGE_KEY = "react-todo-list";
 function App() {
@@ -48,7 +47,7 @@ function App() {
     <div className="todo-app">
       <Typography 
         style={{
-          padding: 50
+          padding: 80
         }}
         variant='h2'
 
