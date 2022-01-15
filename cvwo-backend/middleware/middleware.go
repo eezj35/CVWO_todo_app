@@ -9,6 +9,7 @@ import (
 	"os"
 
 	"github.com/eezj35/CVWO_app/models"
+	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -71,6 +72,14 @@ func CreateTask(w http.ResponseWriter, r *http.Request) {
 }
 
 func CompleteTask(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "PUT")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+	params := mux.Vars(r) // todo: find out more about mux library
+	completeTask(params["id"])
+	json.NewEncoder(w).Encode(params["id"])
 
 }
 
@@ -83,5 +92,18 @@ func DeleteTask() {
 }
 
 func DeleteAllTasks() {
+
+}
+
+// helper functions
+func getAllTasks() {
+
+}
+
+func insertOneTask() {
+
+}
+
+func completeTask(task string) {
 
 }
