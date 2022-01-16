@@ -100,7 +100,7 @@ func getAllTasks() {
 
 }
 
-func insertOneTask() {
+func insertOneTask(task models.Todo) {
 
 }
 
