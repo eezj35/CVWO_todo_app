@@ -11,6 +11,8 @@ import (
 	"github.com/eezj35/CVWO_app/models"
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -54,14 +56,14 @@ func createDBInstance() {
 }
 
 func GetAllTasks(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
+	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	payload := getAllTasks()
 	json.NewEncoder(w).Encode(payload) // encode to send to frontend
 }
 
 func CreateTask(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
+	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
@@ -72,7 +74,7 @@ func CreateTask(w http.ResponseWriter, r *http.Request) {
 }
 
 func CompleteTask(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
+	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "PUT")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
@@ -83,20 +85,58 @@ func CompleteTask(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func UndoTask() {
+func UndoTask(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "PUT")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+	params := mux.Vars(r)
+	undoTask(params["id"])
+	json.NewEncoder(w).Encode(params["id"])
 
 }
 
-func DeleteTask() {
+func DeleteTask(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "DELETE")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
+	params := mux.Vars(r)
+	deleteOneTask(params["id"])
 }
 
-func DeleteAllTasks() {
+func DeleteAllTasks(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	count := deleteAllTasks()
+	json.NewEncoder(w).Encode(count)
 
 }
 
 // helper functions
-func getAllTasks() {
+func getAllTasks() []primitive.M {
+	cur, err := collection.Find(context.Background(), bson.D{{}}) // gets everything stored in db
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var results []primitive.M            // list
+	for cur.Next(context.Background()) { // iterate thru json of tasks in db
+		var result bson.M
+		e := cur.Decode(&result) // decode json
+		if e != nil {
+			log.Fatal(e)
+		}
+		results = append(results, result) // append task to tasks slice
+	}
+
+	if err := cur.Err(); err != nil {
+		log.Fatal(err)
+	}
+	cur.Close(context.Background())
+	return results
 
 }
 
@@ -105,5 +145,25 @@ func insertOneTask(task models.Todo) {
 }
 
 func completeTask(task string) {
+	id, _ := primitive.ObjectIDFromHex(task)
+	filter := bson.M{"_id": id} // filter to get id of task u want to mark as complete
+	update := bson.M{"$set": bson.M{"iscompleted": true}}
+	result, err := collection.UpdateOne(context.Background(), filter, update) // update the task
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("Modified count: ", result.ModifiedCount)
+}
+
+func undoTask(task string) {
+
+}
+
+func deleteOneTask(task string) {
+
+}
+
+func deleteAllTasks(task string) {
 
 }
