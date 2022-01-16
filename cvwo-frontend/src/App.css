@@ -26,16 +26,6 @@ html,
   margin-bottom: 30px;
 }
 
-.todo-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #444;
-  width: 600px;
-  margin-bottom: 12px;
-  border-radius: 5px;
-}
-
 .checkbox-and-text {
   display: flex;
   align-items: center;
