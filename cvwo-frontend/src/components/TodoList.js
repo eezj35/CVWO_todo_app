@@ -1,21 +1,159 @@
 import React from 'react'
-import Todo from './Todo';
-import { List } from '@material-ui/core';
+import axios from "axios";
+import {Card, Header, Form, Input, Icon} from "semantic-ui-react";
+import { Button, TextField } from '@material-ui/core';
 
-function TodoList({ todos, toggleComplete, removeTodo }) {
+let endpoint = "http://localhost:9000";
 
-  return (
-    <List className='todo-list'>
-      {todos.map(todo => (
-        <Todo 
-          key={todo.id} 
-          todo={todo}
-          toggleComplete={toggleComplete}
-          removeTodo={removeTodo}
-        />
-      ))}  
-    </List>
-  );
+class TodoList extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      task:"",
+      items:[],
+    }
+  }
+
+  ComponentDidMount() {
+    this.getTask();
+  }
+
+  onChange = e => {
+    this.SetState({
+      [e.target.name] : e.target.value
+    });
+  };
+
+  onSubmit = 
+
+  getTask = () => {
+    axios.get(endpoint + "/api/task").then((res) => { // read documentation for axios
+      if (res.data) {
+        this.SetState({
+          items: res.data.map((items)=>{
+            let color = 'yellow';
+            let style = {
+              wordWrap: 'break-word',
+            };
+
+            if (item.iscompleted) {
+              color='green';
+              style['textDecorationLine'] = 'line-through';
+            }
+
+            return (
+              <Card key={item._id} color={color} fluid className='todo-task'>
+                <Card.Content>
+                  <Card.Header textAlign='left'>
+                    <div style={style}>{item.task}</div>
+                  </Card.Header>
+
+                  <Card.Meta textAlign='right'>
+                    <Icon
+                      name='check-circle'
+                      color='blue'
+                      onClick={() => this.updateTask(item,_id)}>  
+                    </Icon>
+                    <span style={{paddingRight: 10}}>Undo</span>
+                    <Icon
+                      name='delete'
+                      color='red'
+                      onClick={() => this.deleteTask(item._id)}
+                    />
+                    <span style={{paddingRight: 10}}>Delete</span>
+                  </Card.Meta>
+                </Card.Content>
+              </Card>
+            );
+          }),
+        });
+      } else {
+        this.SetState({
+          items:[],
+        });
+      }
+    });
+  };
+
+  updateTask = (id) => {
+    axios.put(endpoint + "/api/task" + id, {
+      headers:{
+        'Content-Type':'application/x-www-form-urlencoded',
+      },
+    }).then((res) => {
+      console.log(res);
+      this.getTask();
+    });
+  }
+
+
+  undoTask = (id) => {
+    axios.put(endpoint + '/api/undoTask' + id, {
+      headers:{
+        'Content-Type':'application/x-www-form-urlencoded',
+      },
+    }).then((res) => {
+      console.log(res);
+      this.getTask();
+    });
+  };
+
+  deleteTask = (id) => {
+    axios.delete(endpoint + '/api/deleteTask' + id, {
+      headers:{
+        'Content-Type':'application/x-www-form-urlencoded',
+      },
+    }).then((res) => {
+      console.log(res);
+      this.getTask();
+    });
+  };
+
+  render() {
+    return(
+      <div>
+
+        <div className='row'>
+          <Header className='header' as='h2' color='green'>
+            To Do List
+          </Header>
+        </div>
+
+        <div>
+          <Form className='todo-form' onSubmit={this.onSubmit}>
+            <TextField
+                label="Input task here"
+                InputLabelProps={{
+                    className: 'text-label'
+                }}
+                InputProps={{
+                    className: 'text-input'
+                }}
+                type='text' 
+                placeholder='Add a todo' 
+                value={this.state.task}
+                name='task'
+                color='white'
+                onChange={this.onChange}
+                
+            />
+            <Button 
+                style={{backgroundColor: 'aqua'}}
+                type='add-todo'>Add todo
+            </Button>
+          </Form>
+        </div>
+
+        <div className='row'>
+          <Card.Group>
+            {this.state.items}
+          </Card.Group>
+        </div>
+
+      </div>
+    )
+  }
 }
 
 export default TodoList
