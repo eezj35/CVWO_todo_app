@@ -1,5 +1,5 @@
-import React from 'react'
-import axios from "axios";
+import React, {Component} from 'react'
+import axios from 'axios';
 import {Card, Header, Form, Input, Icon} from "semantic-ui-react";
 import { Button, TextField } from '@material-ui/core';
 
@@ -10,28 +10,45 @@ class TodoList extends Component {
     super(props);
 
     this.state = {
-      task:"",
+      task:'',
       items:[],
     }
   }
 
-  ComponentDidMount() {
+  componentDidMount() {
     this.getTask();
   }
 
   onChange = e => {
-    this.SetState({
+    this.setState({
       [e.target.name] : e.target.value
     });
   };
 
-  onSubmit = 
+  onSubmit = () => { // create task api called
+    let {task} = this.state;
+
+    if (task) {
+      axios.post(endpoint + "/api/task",
+        {task, },
+        {headers:{
+          'Content-Type':'application/x-www-form-urlencoded',
+        },
+      }).then((res) => {
+        this.getTask();
+        this.setState({
+          task:'',
+        });
+        console.log(res);
+      });
+    }
+  };
 
   getTask = () => {
     axios.get(endpoint + "/api/task").then((res) => { // read documentation for axios
       if (res.data) {
         this.SetState({
-          items: res.data.map((items)=>{
+          items: res.data.map((item)=>{
             let color = 'yellow';
             let style = {
               wordWrap: 'break-word',
@@ -53,7 +70,7 @@ class TodoList extends Component {
                     <Icon
                       name='check-circle'
                       color='blue'
-                      onClick={() => this.updateTask(item,_id)}>  
+                      onClick={() => this.updateTask(item._id)}>  
                     </Icon>
                     <span style={{paddingRight: 10}}>Undo</span>
                     <Icon
@@ -113,12 +130,6 @@ class TodoList extends Component {
   render() {
     return(
       <div>
-
-        <div className='row'>
-          <Header className='header' as='h2' color='green'>
-            To Do List
-          </Header>
-        </div>
 
         <div>
           <Form className='todo-form' onSubmit={this.onSubmit}>

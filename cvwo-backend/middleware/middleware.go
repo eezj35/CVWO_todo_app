@@ -63,10 +63,10 @@ func GetAllTasks(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateTask(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Methods", "POST")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Content-Type", "application/x-www-form-urlencoded") // take note of the strings in this portion
+	w.Header().Set("Access-Control-Allow-Origin", "*")                  //
+	w.Header().Set("Access-Control-Allow-Methods", "POST")              //
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")      // to this portion
 	var task models.Todo
 	json.NewDecoder(r.Body).Decode(&task) // get data from json and decode
 	insertOneTask(task)
