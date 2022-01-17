@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import axios from 'axios';
 import {Card, Header, Form, Input, Icon} from "semantic-ui-react";
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField, Checkbox } from '@material-ui/core';
 
 let endpoint = "http://localhost:9000";
 
@@ -28,11 +28,11 @@ class TodoList extends Component {
   onSubmit = () => { // create task api called
     let {task} = this.state;
 
-    if (task) {
-      axios.post(endpoint + "/api/task",
-        {task, },
-        {headers:{
+    axios.post(endpoint + "/api/tasks",
+      {task, },
+      {headers:{
           'Content-Type':'application/x-www-form-urlencoded',
+          
         },
       }).then((res) => {
         this.getTask();
@@ -40,14 +40,13 @@ class TodoList extends Component {
           task:'',
         });
         console.log(res);
-      });
-    }
+      });  
   };
 
   getTask = () => {
     axios.get(endpoint + "/api/task").then((res) => { // read documentation for axios
       if (res.data) {
-        this.SetState({
+        this.setState({
           items: res.data.map((item)=>{
             let color = 'yellow';
             let style = {
@@ -67,12 +66,16 @@ class TodoList extends Component {
                   </Card.Header>
 
                   <Card.Meta textAlign='right'>
-                    <Icon
-                      name='check-circle'
-                      color='blue'
-                      onClick={() => this.updateTask(item._id)}>  
-                    </Icon>
-                    <span style={{paddingRight: 10}}>Undo</span>
+            
+                    <Checkbox
+                      
+                      color='black'
+                      onClick={() => {
+                          this.updateTask(item._id)
+                   
+                        }
+                      }/>  
+                    
                     <Icon
                       name='delete'
                       color='red'
@@ -86,7 +89,7 @@ class TodoList extends Component {
           }),
         });
       } else {
-        this.SetState({
+        this.setState({
           items:[],
         });
       }
@@ -94,9 +97,10 @@ class TodoList extends Component {
   };
 
   updateTask = (id) => {
-    axios.put(endpoint + "/api/task" + id, {
+    axios.put(endpoint + "/api/tasks/" + id, {
       headers:{
         'Content-Type':'application/x-www-form-urlencoded',
+        
       },
     }).then((res) => {
       console.log(res);
@@ -105,21 +109,23 @@ class TodoList extends Component {
   }
 
 
-  undoTask = (id) => {
-    axios.put(endpoint + '/api/undoTask' + id, {
-      headers:{
-        'Content-Type':'application/x-www-form-urlencoded',
-      },
-    }).then((res) => {
-      console.log(res);
-      this.getTask();
-    });
-  };
+  // undoTask = (id) => {
+  //   axios.put(endpoint + '/api/undoTask/' + id, {
+  //     headers:{
+  //       'Content-Type':'application/x-www-form-urlencoded',
+        
+  //     },
+  //   }).then((res) => {
+  //     console.log(res);
+  //     this.getTask();
+  //   });
+  // };
 
   deleteTask = (id) => {
-    axios.delete(endpoint + '/api/deleteTask' + id, {
+    axios.delete(endpoint + '/api/deleteTask/' + id, {
       headers:{
         'Content-Type':'application/x-www-form-urlencoded',
+        
       },
     }).then((res) => {
       console.log(res);
@@ -145,7 +151,6 @@ class TodoList extends Component {
                 placeholder='Add a todo' 
                 value={this.state.task}
                 name='task'
-                color='white'
                 onChange={this.onChange}
                 
             />

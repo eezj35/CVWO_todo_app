@@ -50,19 +50,23 @@ func createDBInstance() {
 
 	fmt.Println("Connected to mongodb.")
 
-	client.Database(dbName).Collection(collectionName)
+	collection = client.Database(dbName).Collection(collectionName)
 	fmt.Println("Collection instance created.")
 
 }
 
 func GetAllTasks(w http.ResponseWriter, r *http.Request) {
+
 	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	payload := getAllTasks()
 	json.NewEncoder(w).Encode(payload) // encode to send to frontend
 }
 
 func CreateTask(w http.ResponseWriter, r *http.Request) {
+
 	w.Header().Set("Content-Type", "application/x-www-form-urlencoded") // take note of the strings in this portion
 	w.Header().Set("Access-Control-Allow-Origin", "*")                  //
 	w.Header().Set("Access-Control-Allow-Methods", "POST")              //
@@ -74,6 +78,7 @@ func CreateTask(w http.ResponseWriter, r *http.Request) {
 }
 
 func CompleteTask(w http.ResponseWriter, r *http.Request) {
+
 	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "PUT")
@@ -86,6 +91,7 @@ func CompleteTask(w http.ResponseWriter, r *http.Request) {
 }
 
 func UndoTask(w http.ResponseWriter, r *http.Request) {
+
 	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "PUT")
@@ -98,6 +104,7 @@ func UndoTask(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteTask(w http.ResponseWriter, r *http.Request) {
+
 	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "DELETE")
@@ -108,6 +115,7 @@ func DeleteTask(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteAllTasks(w http.ResponseWriter, r *http.Request) {
+
 	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	count := deleteAllTasks()
