@@ -19,16 +19,19 @@ html,
 
 .todo-form {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   font-family: monospace;
   border-color: white !important;
   margin-bottom: 30px;
 }
 
-.checkbox-and-text {
+.todo-list {
   display: flex;
+  flex-direction: column;
   align-items: center;
+  font-family: monospace;
+  border-color: white !important;
 }
 
 .text-label {
@@ -38,10 +41,6 @@ html,
 .text-input {
   color: white !important;
   margin-right: 16px;
-}
-
-.todo-text {
-  align-items: flex-start;
 }
 
 .btn-label {

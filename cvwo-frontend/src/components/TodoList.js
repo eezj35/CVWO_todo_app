@@ -1,8 +1,7 @@
 import React, {Component} from 'react'
 import axios from 'axios';
-import {Card, Header, Form, Input, Icon} from "semantic-ui-react";
-import { Button, TextField, Checkbox } from '@material-ui/core';
-import { grey } from '@material-ui/core/colors';
+import {Card, Form, Icon, Button} from "semantic-ui-react";
+import {TextField, Checkbox} from '@material-ui/core';
 
 let endpoint = "http://localhost:9000";
 
@@ -12,7 +11,6 @@ class TodoList extends Component {
 
     this.state = {
       task:'',
-      isChecked:false,
       items:[],
     }
   }
@@ -33,13 +31,13 @@ class TodoList extends Component {
     axios.post(endpoint + "/api/tasks",
       {task, },
       {headers:{
-          'Content-Type':'application/x-www-form-urlencoded',
-          
+          'Content-Type':'application/x-www-form-urlencoded',  
         },
       }).then((res) => {
         this.getTask();
         this.setState({
           task:'',
+          
         });
         console.log(res);
       });  
@@ -50,7 +48,8 @@ class TodoList extends Component {
       if (res.data) {
         this.setState({
           items: res.data.map((item)=>{
-            let color = 'yellow';
+            
+            let color = 'black';
             let style = {
               wordWrap: 'break-word',
             };
@@ -62,10 +61,9 @@ class TodoList extends Component {
 
             return (
               <Card key={item._id}
-                    color={color} 
-                    width='100px' 
+                    
                     className='todo-task'
-                    fluid
+                    style = {{width: 600, }}  
                     >
                 <Card.Content>
                   <Card.Header textAlign='left'>
@@ -148,13 +146,12 @@ class TodoList extends Component {
         <div>
           <Form className='todo-form' onSubmit={this.onSubmit}>
             <TextField
+                style = {{width: 400}}  
                 label="Input task here"
                 InputLabelProps={{
                     className: 'text-label'
                 }}
-                InputProps={{
-                    className: 'text-input'
-                }}
+            
                 type='text' 
                 placeholder='Add a todo' 
                 value={this.state.task}
@@ -163,16 +160,16 @@ class TodoList extends Component {
                 
             />
             <Button 
-                style={{backgroundColor: 'aqua'}}
-                type='add-todo'>Add todo
+              style={{backgroundColor: 'aqua', padding: '10px'}}
+              type='add-todo'>Add todo
             </Button>
+            
           </Form>
+          
         </div>
 
-        <div className='row'>
-          <Card.Group>
+        <div className='todo-list' style={{padding: '10px'}}>
             {this.state.items}
-          </Card.Group>
         </div>
 
       </div>
