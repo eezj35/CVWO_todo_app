@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import axios from 'axios';
 import {Card, Header, Form, Input, Icon} from "semantic-ui-react";
 import { Button, TextField, Checkbox } from '@material-ui/core';
+import { grey } from '@material-ui/core/colors';
 
 let endpoint = "http://localhost:9000";
 
@@ -11,6 +12,7 @@ class TodoList extends Component {
 
     this.state = {
       task:'',
+      isChecked:false,
       items:[],
     }
   }
@@ -59,7 +61,12 @@ class TodoList extends Component {
             }
 
             return (
-              <Card key={item._id} color={color} fluid className='todo-task'>
+              <Card key={item._id}
+                    color={color} 
+                    width='100px' 
+                    className='todo-task'
+                    fluid
+                    >
                 <Card.Content>
                   <Card.Header textAlign='left'>
                     <div style={style}>{item.task}</div>
@@ -68,11 +75,13 @@ class TodoList extends Component {
                   <Card.Meta textAlign='right'>
             
                     <Checkbox
-                      
                       color='black'
                       onClick={() => {
-                          this.updateTask(item._id)
-                   
+                          if (item.iscompleted) {
+                            this.undoTask(item._id)
+                          } else {
+                            this.updateTask(item._id)
+                          }
                         }
                       }/>  
                     
@@ -108,18 +117,17 @@ class TodoList extends Component {
     });
   }
 
-
-  // undoTask = (id) => {
-  //   axios.put(endpoint + '/api/undoTask/' + id, {
-  //     headers:{
-  //       'Content-Type':'application/x-www-form-urlencoded',
+  undoTask = (id) => {
+    axios.put(endpoint + '/api/undoTask/' + id, {
+      headers:{
+        'Content-Type':'application/x-www-form-urlencoded',
         
-  //     },
-  //   }).then((res) => {
-  //     console.log(res);
-  //     this.getTask();
-  //   });
-  // };
+      },
+    }).then((res) => {
+      console.log(res);
+      this.getTask();
+    });
+  };
 
   deleteTask = (id) => {
     axios.delete(endpoint + '/api/deleteTask/' + id, {
