@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import axios from 'axios';
-import {Card, Form, Icon, Button} from "semantic-ui-react";
-import {TextField, Checkbox} from '@material-ui/core';
+import {Card, Form, Icon} from "semantic-ui-react";
+import {TextField, Checkbox, Button} from '@material-ui/core';
 
 let endpoint = "http://localhost:9000";
 
@@ -49,9 +49,10 @@ class TodoList extends Component {
         this.setState({
           items: res.data.map((item)=>{
             
-            let color = 'black';
+            let color = 'white';
             let style = {
               wordWrap: 'break-word',
+              
             };
 
             if (item.iscompleted) {
@@ -61,19 +62,16 @@ class TodoList extends Component {
 
             return (
               <Card key={item._id}
-                    
                     className='todo-task'
                     style = {{width: 600, }}  
                     >
+                
                 <Card.Content>
-                  <Card.Header textAlign='left'>
-                    <div style={style}>{item.task}</div>
-                  </Card.Header>
-
-                  <Card.Meta textAlign='right'>
-            
-                    <Checkbox
-                      color='black'
+                  <Card.Meta className='todo-content'>
+                    <Icon
+                      color='green'
+                      className = 'check-button'
+                      name='check circle outline'
                       onClick={() => {
                           if (item.iscompleted) {
                             this.undoTask(item._id)
@@ -81,16 +79,31 @@ class TodoList extends Component {
                             this.updateTask(item._id)
                           }
                         }
-                      }/>  
-                    
+                      }
+                    />  
+                    <Card.Header className='task-text'>
+                      <div style={style}>{item.task}</div>
+                    </Card.Header>
+                  </Card.Meta>
+                  
+                  
+
+                  <Card.Meta textAlign='right'>
                     <Icon
+                      className='edit-button'
+                      name='edit'
+                      color='yellow'
+                      onClick={() => {}}
+                    />
+                    <Icon
+                      className='delete-button'
                       name='delete'
                       color='red'
                       onClick={() => this.deleteTask(item._id)}
                     />
-                    <span style={{paddingRight: 10}}>Delete</span>
                   </Card.Meta>
                 </Card.Content>
+                  
               </Card>
             );
           }),
@@ -144,12 +157,19 @@ class TodoList extends Component {
       <div>
 
         <div>
-          <Form className='todo-form' onSubmit={this.onSubmit}>
+          <form className='todo-form' 
+                onSubmit={this.onSubmit}
+                >
+            <div>
             <TextField
-                style = {{width: 400}}  
+                className='input'
+                style = {{width: 400, color: 'yellow'}}  
                 label="Input task here"
                 InputLabelProps={{
                     className: 'text-label'
+                }}
+                InputProps={{
+                  className: 'text-input'
                 }}
             
                 type='text' 
@@ -159,12 +179,15 @@ class TodoList extends Component {
                 onChange={this.onChange}
                 
             />
+
             <Button 
-              style={{backgroundColor: 'aqua', padding: '10px'}}
-              type='add-todo'>Add todo
-            </Button>
+                
+                style={{backgroundColor: 'yellow'}}
+                type='add-todo'>Add todo</Button>
+            </div>
             
-          </Form>
+            
+          </form>
           
         </div>
 

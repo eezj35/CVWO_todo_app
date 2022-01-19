@@ -14,15 +14,12 @@ html,
 #root {
   height: 100%;
   background-color: #282c34;
-  color: white;
+  color: rgb(255, 255, 147);
 }
 
 .todo-form {
-  display: flex;
-  flex-direction: column;
   align-items: center;
   font-family: monospace;
-  border-color: white !important;
   margin-bottom: 30px;
 }
 
@@ -34,17 +31,36 @@ html,
   border-color: white !important;
 }
 
+.todo-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.task-text {
+  color: black;
+  font-size: 5mm;
+}
+
 .text-label {
-  color: #61dafb !important;
+  color: yellow !important;
+}
+
+.edit-button {
+  padding-right: 10mm;
+}
+
+.delete-button {
+  padding-right: 5mm;
+}
+
+.check-button {
+  padding-right: 10mm;
 }
 
 .text-input {
   color: white !important;
   margin-right: 16px;
-}
-
-.btn-label {
-  background-color: aqua !important;
 }
 
 .App-logo {
