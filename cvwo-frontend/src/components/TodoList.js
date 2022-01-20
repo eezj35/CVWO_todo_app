@@ -34,10 +34,10 @@ class TodoList extends Component {
           'Content-Type':'application/x-www-form-urlencoded',  
         },
       }).then((res) => {
+
         this.getTask();
         this.setState({
-          task:'',
-          
+          task:'',         
         });
         console.log(res);
       });  
@@ -46,18 +46,17 @@ class TodoList extends Component {
   getTask = () => {
     axios.get(endpoint + "/api/task").then((res) => { // read documentation for axios
       if (res.data) {
+        res.data.reverse();
         this.setState({
-          items: res.data.map((item)=>{
-            
-            let color = 'white';
+          items: res.data.map((item, index)=> {
             let style = {
-              wordWrap: 'break-word',
-              
+              wordWrap: 'break-word',   
+              color: 'black'
             };
 
             if (item.iscompleted) {
-              color='green';
               style['textDecorationLine'] = 'line-through';
+              style['color'] = '#C4C2C0'
             }
 
             return (
@@ -66,9 +65,13 @@ class TodoList extends Component {
                     style = {{width: 600, }}  
                     >
                 
-                <Card.Content>
-                  <Card.Meta className='todo-content'>
-                    <Icon
+                <Card.Content> 
+                  <Card.Header className='task-text' textAlign='left'>
+                      <div style={style}>{index + 1 + '. ' + item.task}</div>
+                  </Card.Header>
+
+                  <Card.Meta textAlign='right'>
+                  <Icon
                       color='green'
                       className = 'check-button'
                       name='check circle outline'
@@ -80,21 +83,7 @@ class TodoList extends Component {
                           }
                         }
                       }
-                    />  
-                    <Card.Header className='task-text'>
-                      <div style={style}>{item.task}</div>
-                    </Card.Header>
-                  </Card.Meta>
-                  
-                  
-
-                  <Card.Meta textAlign='right'>
-                    <Icon
-                      className='edit-button'
-                      name='edit'
-                      color='yellow'
-                      onClick={() => {}}
-                    />
+                    /> 
                     <Icon
                       className='delete-button'
                       name='delete'
@@ -102,12 +91,12 @@ class TodoList extends Component {
                       onClick={() => this.deleteTask(item._id)}
                     />
                   </Card.Meta>
-                </Card.Content>
-                  
+                </Card.Content>                  
               </Card>
             );
           }),
         });
+        
       } else {
         this.setState({
           items:[],
@@ -119,8 +108,7 @@ class TodoList extends Component {
   updateTask = (id) => {
     axios.put(endpoint + "/api/tasks/" + id, {
       headers:{
-        'Content-Type':'application/x-www-form-urlencoded',
-        
+        'Content-Type':'application/x-www-form-urlencoded',        
       },
     }).then((res) => {
       console.log(res);
@@ -131,8 +119,7 @@ class TodoList extends Component {
   undoTask = (id) => {
     axios.put(endpoint + '/api/undoTask/' + id, {
       headers:{
-        'Content-Type':'application/x-www-form-urlencoded',
-        
+        'Content-Type':'application/x-www-form-urlencoded',        
       },
     }).then((res) => {
       console.log(res);
@@ -143,16 +130,17 @@ class TodoList extends Component {
   deleteTask = (id) => {
     axios.delete(endpoint + '/api/deleteTask/' + id, {
       headers:{
-        'Content-Type':'application/x-www-form-urlencoded',
-        
+        'Content-Type':'application/x-www-form-urlencoded',       
       },
     }).then((res) => {
       console.log(res);
       this.getTask();
     });
   };
+  
 
   render() {
+    
     return(
       <div>
 
@@ -179,14 +167,11 @@ class TodoList extends Component {
                 onChange={this.onChange}
                 
             />
-
             <Button 
                 
                 style={{backgroundColor: 'yellow'}}
                 type='add-todo'>Add todo</Button>
-            </div>
-            
-            
+            </div>           
           </form>
           
         </div>

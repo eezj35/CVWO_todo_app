@@ -84,7 +84,7 @@ func CompleteTask(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Methods", "PUT")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
-	params := mux.Vars(r) // todo: find out more about mux library
+	params := mux.Vars(r)
 	completeTask(params["id"])
 	json.NewEncoder(w).Encode(params["id"])
 

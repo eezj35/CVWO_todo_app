@@ -34,12 +34,6 @@ html,
 .todo-content {
   display: flex;
   flex-direction: row;
-  align-items: center;
-}
-
-.task-text {
-  color: black;
-  font-size: 5mm;
 }
 
 .text-label {
