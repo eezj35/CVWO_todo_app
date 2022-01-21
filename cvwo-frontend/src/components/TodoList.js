@@ -1,4 +1,4 @@
-import React, {Component, useEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import axios from 'axios';
 import {Card, Icon} from "semantic-ui-react";
 import {TextField, Button} from '@material-ui/core';
@@ -50,7 +50,7 @@ function TodoList() {
             return (
               <Card key={item._id}
                     className='todo-task'
-                    style = {{width: 600, }}  
+                    style = {{width: 600}}  
                     >
                 
                 <Card.Content> 
@@ -131,9 +131,10 @@ function TodoList() {
               >
           <div>
           <TextField
-              className='input'
+              className='input-textfield'
               style = {{width: 400, color: 'yellow'}}  
               label="Input task here"
+              variant='outlined'
               InputLabelProps={{
                   className: 'text-label'
               }}
@@ -150,14 +151,14 @@ function TodoList() {
           />
           <Button 
               
-              style={{backgroundColor: 'yellow'}}
+              style={{backgroundColor: 'yellow', padding: '15px'}}
               type='add-todo'>Add todo</Button>
           </div>           
         </form>
         
       </div>
 
-      <div className='todo-list' style={{padding: '10px'}}>
+      <div className='todo-list' style={{padding: '10px', marginBottom: '50px'}}>
           {items}
       </div>
 

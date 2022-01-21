@@ -8,12 +8,11 @@ function App() {
     <div className="todo-app">
       <Typography 
         style={{
-          padding: 80
+          padding: 50
         }}
-        variant='h2'
-
+        variant='h3'
         >
-        Task Manager
+        TooDoo
       </Typography>
       
       <TodoList/>

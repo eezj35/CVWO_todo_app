@@ -13,7 +13,7 @@ body,
 html,
 #root {
   height: 100%;
-  background-color: #282c34;
+  background-color: #2b2f38;
   color: rgb(255, 255, 147);
 }
 
@@ -50,6 +50,10 @@ html,
 
 .check-button {
   padding-right: 10mm;
+}
+
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: yellow !important;
 }
 
 .text-input {
