@@ -1,54 +1,42 @@
-import React, {Component} from 'react'
+import React, {Component, useEffect, useState} from 'react'
 import axios from 'axios';
-import {Card, Form, Icon} from "semantic-ui-react";
-import {TextField, Checkbox, Button} from '@material-ui/core';
+import {Card, Icon} from "semantic-ui-react";
+import {TextField, Button} from '@material-ui/core';
 
 let endpoint = "http://localhost:9000";
 
-class TodoList extends Component {
-  constructor(props) {
-    super(props);
+function TodoList() {
+  const [task, setTask] = useState('');
+  const [items, setItems] = useState([]);
 
-    this.state = {
-      task:'',
-      items:[],
-    }
-  }
+  useEffect(() => {
+    getTask();
+  });
 
-  componentDidMount() {
-    this.getTask();
-  }
-
-  onChange = e => {
-    this.setState({
-      [e.target.name] : e.target.value
-    });
+  const onChange = e => {
+    setTask(e.target.value);
   };
 
-  onSubmit = () => { // create task api called
-    let {task} = this.state;
+  const onSubmit = () => { // create task api called
 
     axios.post(endpoint + "/api/tasks",
-      {task, },
+      {task, items},
       {headers:{
           'Content-Type':'application/x-www-form-urlencoded',  
         },
       }).then((res) => {
-
-        this.getTask();
-        this.setState({
-          task:'',         
-        });
+        getTask();
+        setTask('');
         console.log(res);
       });  
   };
 
-  getTask = () => {
-    axios.get(endpoint + "/api/task").then((res) => { // read documentation for axios
+  const getTask = () => {
+    axios.get(endpoint + "/api/task").then(res => { // read documentation for axios
       if (res.data) {
         res.data.reverse();
-        this.setState({
-          items: res.data.map((item, index)=> {
+        setItems(
+          res.data.map((item, index) => {
             let style = {
               wordWrap: 'break-word',   
               color: 'black'
@@ -77,9 +65,9 @@ class TodoList extends Component {
                       name='check circle outline'
                       onClick={() => {
                           if (item.iscompleted) {
-                            this.undoTask(item._id)
+                            undoTask(item._id)
                           } else {
-                            this.updateTask(item._id)
+                            updateTask(item._id)
                           }
                         }
                       }
@@ -88,101 +76,94 @@ class TodoList extends Component {
                       className='delete-button'
                       name='delete'
                       color='red'
-                      onClick={() => this.deleteTask(item._id)}
+                      onClick={() => deleteTask(item._id)}
                     />
                   </Card.Meta>
                 </Card.Content>                  
               </Card>
             );
           }),
-        });
-        
+        );  
       } else {
-        this.setState({
-          items:[],
-        });
+        setItems([]);
       }
     });
   };
 
-  updateTask = (id) => {
+  const updateTask = id => {
     axios.put(endpoint + "/api/tasks/" + id, {
       headers:{
         'Content-Type':'application/x-www-form-urlencoded',        
       },
     }).then((res) => {
       console.log(res);
-      this.getTask();
+      getTask();
     });
   }
 
-  undoTask = (id) => {
+  const undoTask = id => {
     axios.put(endpoint + '/api/undoTask/' + id, {
       headers:{
         'Content-Type':'application/x-www-form-urlencoded',        
       },
     }).then((res) => {
       console.log(res);
-      this.getTask();
+      getTask();
     });
   };
 
-  deleteTask = (id) => {
+  const deleteTask = id => {
     axios.delete(endpoint + '/api/deleteTask/' + id, {
       headers:{
         'Content-Type':'application/x-www-form-urlencoded',       
       },
     }).then((res) => {
       console.log(res);
-      this.getTask();
+      getTask();
     });
   };
-  
 
-  render() {
-    
-    return(
+  return(
+    <div>
       <div>
-
-        <div>
-          <form className='todo-form' 
-                onSubmit={this.onSubmit}
-                >
-            <div>
-            <TextField
-                className='input'
-                style = {{width: 400, color: 'yellow'}}  
-                label="Input task here"
-                InputLabelProps={{
-                    className: 'text-label'
-                }}
-                InputProps={{
-                  className: 'text-input'
-                }}
-            
-                type='text' 
-                placeholder='Add a todo' 
-                value={this.state.task}
-                name='task'
-                onChange={this.onChange}
-                
-            />
-            <Button 
-                
-                style={{backgroundColor: 'yellow'}}
-                type='add-todo'>Add todo</Button>
-            </div>           
-          </form>
+        <form className='todo-form' 
+              onSubmit={onSubmit}
+              >
+          <div>
+          <TextField
+              className='input'
+              style = {{width: 400, color: 'yellow'}}  
+              label="Input task here"
+              InputLabelProps={{
+                  className: 'text-label'
+              }}
+              InputProps={{
+                className: 'text-input'
+              }}
           
-        </div>
-
-        <div className='todo-list' style={{padding: '10px'}}>
-            {this.state.items}
-        </div>
-
+              type='text' 
+              placeholder='Add a todo' 
+              value={task}
+              name='task'
+              onChange={onChange}
+              
+          />
+          <Button 
+              
+              style={{backgroundColor: 'yellow'}}
+              type='add-todo'>Add todo</Button>
+          </div>           
+        </form>
+        
       </div>
-    )
-  }
+
+      <div className='todo-list' style={{padding: '10px'}}>
+          {items}
+      </div>
+
+    </div>
+  )
+
 }
 
 export default TodoList

@@ -103,19 +103,6 @@ func UndoTask(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func EditTask(w http.ResponseWriter, r *http.Request) {
-
-	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Methods", "PUT")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-
-	params := mux.Vars(r)
-	editTask(params["id"], params["tasks"])
-	json.NewEncoder(w).Encode(params["id"])
-
-}
-
 func DeleteTask(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
@@ -186,18 +173,6 @@ func undoTask(task string) {
 	id, _ := primitive.ObjectIDFromHex(task)
 	filter := bson.M{"_id": id}
 	update := bson.M{"$set": bson.M{"iscompleted": false}}
-	result, err := collection.UpdateOne(context.Background(), filter, update)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println("Modified count: ", result.ModifiedCount)
-}
-
-func editTask(task string, newTask string) {
-	id, _ := primitive.ObjectIDFromHex(task)
-	filter := bson.M{"_id": id}
-	update := bson.M{"$set": bson.M{"task": newTask}}
 	result, err := collection.UpdateOne(context.Background(), filter, update)
 	if err != nil {
 		log.Fatal(err)
