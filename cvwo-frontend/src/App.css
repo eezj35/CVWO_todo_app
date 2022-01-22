@@ -13,8 +13,8 @@ body,
 html,
 #root {
   height: 100%;
-  background-color: #2b2f38;
-  color: rgb(255, 255, 147);
+  background-color: #e0e0e0;
+  color: rgb(105, 105, 105);
 }
 
 .todo-form {
@@ -28,7 +28,6 @@ html,
   flex-direction: column;
   align-items: center;
   font-family: monospace;
-  border-color: white !important;
 }
 
 .todo-content {
@@ -37,27 +36,26 @@ html,
 }
 
 .text-label {
-  color: yellow !important;
+  color: black !important;
 }
 
-.edit-button {
-  padding-right: 10mm;
-}
-
-.delete-button {
-  padding-right: 5mm;
+.task-text {
+  padding-left: 5mm;
 }
 
 .check-button {
   padding-right: 10mm;
 }
+.delete-button {
+  padding-right: 5mm;
+}
 
 .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-  border-color: yellow !important;
+  border-color: rgb(105, 105, 105) !important;
 }
 
 .text-input {
-  color: white !important;
+  color: rgb(105, 105, 105) !important;
   margin-right: 16px;
 }
 

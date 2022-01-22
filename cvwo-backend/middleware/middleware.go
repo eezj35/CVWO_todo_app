@@ -90,7 +90,7 @@ func CompleteTask(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func UndoTask(w http.ResponseWriter, r *http.Request) {
+func UncompleteTask(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -98,7 +98,7 @@ func UndoTask(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
 	params := mux.Vars(r)
-	undoTask(params["id"])
+	uncompleteTask(params["id"])
 	json.NewEncoder(w).Encode(params["id"])
 
 }
@@ -169,7 +169,7 @@ func completeTask(task string) {
 	fmt.Println("Modified count: ", result.ModifiedCount)
 }
 
-func undoTask(task string) {
+func uncompleteTask(task string) {
 	id, _ := primitive.ObjectIDFromHex(task)
 	filter := bson.M{"_id": id}
 	update := bson.M{"$set": bson.M{"iscompleted": false}}
