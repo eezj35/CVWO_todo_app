@@ -1,6 +1,6 @@
 # CVWO_todo_app
 
-Name: Justin Ee
+Name: Ee Zhi Jun Justin
 
 Matriculation number: A0223784Y
 
@@ -13,5 +13,4 @@ Features:
 - unmark todo
 
 Upcoming:
-- edit todo
 - sub categories for todo
